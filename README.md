@@ -1,3 +1,5 @@
+# Leaflet Playground
+
 <h3>What is this project?</h3>
 
 This project is a playground designed for testing the Leaflet library, an open-source JavaScript library used for creating interactive maps.
