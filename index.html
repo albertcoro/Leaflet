@@ -32,7 +32,7 @@
 
 <div id="slide-in">
 	<h2>More Information</h2>
-<div>
+</div>
 
 
 <div id="overlay" style="
@@ -66,6 +66,31 @@
 		iconSize: [50,50],
 		iconAnchor: [25,50],
 		popupAnchor: [0,-50]
+	});
+
+	var countriesGeoJSON = false;
+	fetch('https://github.com/johan/world.geo.json/blob/master/countries.geo.json',{
+		method: 'GET'
+	}).then(response => response.json())
+	.then(json => {
+		console.log(json);
+		var geojson = L.geoJSON(json,{
+			style: function (feature){
+				return {
+					fillOpacity: 0
+				};
+			}
+		}).addTo(map);
+		map.fitBounds(geojson.getBounds(),{
+			padding: [20,20]
+		});
+		if(earthquakeJSON){
+			earthquakeJSON.bringToFront();
+		}
+		countriesGeoJSON = geojson;
+	})
+	.catch(error => {
+		console.error('Error:', error);
 	});
 		
 	var popup = L.popup()
