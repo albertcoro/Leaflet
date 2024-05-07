@@ -47,10 +47,10 @@
 	padding: 10px;
 	box-shadow: 1px 1px 1px grey;
 	height: 200px;
+	width: 300px;
 ">
-	<h2 style="margin: auto;width: 50%;">My Map</h2>
-	<input type="text" id="current_center"/>
-	<button id="toggleLayer" >Toggle</button>
+	<h2>My Map</h2>
+	<input type="text" readonly id="current_center"/>
 </div>
 <div id="map" style="width: 100%; height: 100%;"></div>
 
@@ -72,7 +72,17 @@
 
 	const map = L.map('map',{zoomControl: false}).setView([41.977840629882905,2.818124459367482], 12);
 
-	var geojsonLayer = L.geoJSON(countries, {style: {fillOpacity: 0}});
+	var geojsonLayer = L.geoJSON(countries, {
+		style: {fillOpacity: 0, fillColor: 'blue', color: 'black', weight: 1}, 
+		onEachFeature: function (feature, layer){
+			layer.on('mouseover', function(e){
+				layer.setStyle({fillOpacity: 0.5});
+			});
+			layer.on('mouseout', function(e){
+				layer.setStyle({fillOpacity: 0});
+			});
+		}
+	});
     geojsonLayer.addTo(map);
 
 	var earthquakeLayer = L.geoJSON(earthquakes, {
